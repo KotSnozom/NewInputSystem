@@ -18,17 +18,17 @@ public class Test : MonoBehaviour
     private void Stops()
     {
         StopCoroutine(nameof(Dess));
-        _oldPos = default;
     }
     IEnumerator Dess()
     {
+        _oldPos = _pos;
         while (true)
         {
             if(Vector2.Distance(_oldPos,_pos) >= _dist)
             {
                 Vector2 _dir = (_oldPos - _pos).normalized;
                
-                transform.Translate(new Vector3(_dir.x,_dir.y)* _translate);
+                transform.Translate(_dir * _translate);
                 _oldPos = _pos;
             }
             Debug.DrawLine(_oldPos,_pos);
@@ -38,6 +38,6 @@ public class Test : MonoBehaviour
     private void Position(Vector2 pos)
     {
         _pos = pos;
-        _pos = Camera.main.ScreenToWorldPoint(_pos);
+        _pos = Camera.main.ScreenToWorldPoint(new Vector2(_pos.x,_pos.y));
     }
 }
